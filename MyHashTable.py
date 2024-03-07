@@ -1,7 +1,9 @@
 class MyHashTable:
-    def __init__(self, size=10):
+    def __init__(self, size=10, threshold_load_fac=1):
         self.table_size = size
         self.table = [None for i in range(self.table_size)]
+        self.load_factor = 0
+        self.threshold_load_factor = threshold_load_fac
 
 
     # Precondition: tableSize > 0
@@ -21,24 +23,31 @@ class MyHashTable:
         # that happened to either have the same hash value, or happened to the resolve to the same index
         if self.table[index] and self.table[index] == key:
             return self.table[index]
-    
-    def _load_factor(self):
-        pass
+
+    def print_hash_table(self):
+        [print(i[0], ": ", i[1].value) for i in enumerate(self.table)]
+        print()
 
     @staticmethod
     def gen_hash(string):
         if not string:
             return 0
 
-        hash_value = 0
-        for ii in range(len(string)):
-            hash_value += ord(string[ii]) * ii
+        return int(string)
 
-        return hash_value
+    def add_basic(self, key, value):
+        index = self.get_index(self.gen_hash(key), self.table_size)
+        if self.table[index] is not None:
+            self.load_factor += 1/self.table_size
+        self.table[index] = value # will overwrite any existing value. Does not handle collisions. BAD
+        
+    def rehash(self, new_size=None):
+        pass
 
     def add(self, key, value):
-        index = self.get_index(self.gen_hash(key), self.table_size)
-        self.table[index] = value # will overwrite any existing value. Does not handle collisions. BAD
+        self.add_basic(key, value)
+        if(self.load_factor > self.threshold_load_factor):
+            self.rehash()
 
 if __name__ == "__main__":
     my_table = MyHashTable()
