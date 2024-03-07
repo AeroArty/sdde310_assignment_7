@@ -42,7 +42,7 @@ class HashTable_LP(MyHashTable):
             curr_node.key = key
             curr_node.value = value
 
-    def rehash(self, new_size=None):
+    def _rehash(self, new_size=None):
         old_table = self.table
         if new_size is None:
             new_size = self.table_size * 2

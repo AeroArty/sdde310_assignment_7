@@ -1,3 +1,5 @@
+# Used lab solutions as template/starting point
+
 class MyHashTable:
     def __init__(self, size=10, threshold_load_fac=1):
         self.table_size = size
@@ -33,7 +35,9 @@ class MyHashTable:
         if not string:
             return 0
 
-        return int(string)
+        hash_value = 0
+        for ii in range(len(string)):
+            hash_value += ord(string[ii]) * ii
 
     def add_basic(self, key, value):
         index = self.get_index(self.gen_hash(key), self.table_size)
@@ -41,13 +45,13 @@ class MyHashTable:
             self.load_factor += 1/self.table_size
         self.table[index] = value # will overwrite any existing value. Does not handle collisions. BAD
         
-    def rehash(self, new_size=None):
+    def _rehash(self, new_size=None):
         pass
 
     def add(self, key, value):
         self.add_basic(key, value)
         if(self.load_factor > self.threshold_load_factor):
-            self.rehash()
+            self._rehash()
 
 if __name__ == "__main__":
     my_table = MyHashTable()

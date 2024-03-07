@@ -55,7 +55,7 @@ class HashTable_Chain(MyHashTable):
                 curr_node.next = self.ListNode(key, value)
                 self.load_factor += 1/self.table_size
 
-    def rehash(self, new_size=None):
+    def _rehash(self, new_size=None):
         old_table = self.table
         if new_size is None:
             new_size = self.table_size * 2
